@@ -38,22 +38,22 @@ if __name__ == "__main__":
         target_modules=["to_k", "to_q", "to_v", "to_out.0"],
     )
     pipeline.unet.add_adapter(unet_lora_config)
+    for param in pipeline.unet.parameters():
+        # only upcast trainable parameters (LoRA) into fp32
+        if param.requires_grad:
+            param.data = param.to(torch.float32)
+    optimizer = torch.optim.AdamW(pipeline.unet.parameters(), lr=train_policy_learning_rate)
     if os.path.exists(lora_path + f"diffusers_lora_epoch_{train_policy_num_epochs}.safetensors"):
         lora_state_dict, _ = StableDiffusionPipeline.lora_state_dict(lora_path + f"diffusers_lora_epoch_{train_policy_num_epochs}.safetensors")
         unet_state_dict = {f'{k.replace("unet.", "")}': v for k, v in lora_state_dict.items() if k.startswith("unet.")}
         unet_state_dict = convert_unet_state_dict_to_peft(unet_state_dict)
         set_peft_model_state_dict(pipeline.unet, unet_state_dict, adapter_name="default")
         print("Loaded existing LoRA.")
+        optimizer.load_state_dict(torch.load(lora_path + "optimizer.pth"))
     else:
         print("Initialized a new LoRA.")
-    for param in pipeline.unet.parameters():
-        # only upcast trainable parameters (LoRA) into fp32
-        if param.requires_grad:
-            param.data = param.to(torch.float32)
 
     clean_directory(lora_path)
-
-    optimizer = torch.optim.AdamW(pipeline.unet.parameters(), lr=train_policy_learning_rate)
 
     scaler = GradScaler()
 
@@ -194,7 +194,7 @@ if __name__ == "__main__":
                     loss = torch.mean(torch.maximum(unclipped_loss, clipped_loss))
                 scaler.scale(loss).backward()
         scaler.step(optimizer)
-        scaler.update()
+        scaler.update()  # we won't update scaler often enough to trigger growth, so we don't save it
         optimizer.zero_grad()
 
         if epoch % train_save_freq == 0:
@@ -210,3 +210,5 @@ if __name__ == "__main__":
             peft_state_dict = convert_all_state_dict_to_peft(lora_state_dict)
             kohya_state_dict = convert_state_dict_to_kohya(peft_state_dict)
             save_file(kohya_state_dict, lora_path + f"ui_lora_epoch_{epoch}.safetensors")
+
+            torch.save(optimizer.state_dict(), lora_path + "optimizer.pth")
