@@ -1,14 +1,12 @@
 # AlmostPerfect
 
-Simple end-to-end RLHF for diffusion models (DDPO) on personal hardware.
+Simple end-to-end RLHF (Reinforcement Learning from Human Feedbacks) for diffusion models (DDPO) on personal hardware.
 
-在个人硬件上对扩散模型进行端到端RLHF训练（DDPO）。
+在个人硬件上对扩散模型进行端到端RLHF（基于人类反馈的强化学习）训练（DDPO）。
 
 ![webapp](./webapp.png)
 
 ![webapp_focused](./webapp_focused.png)
-
----
 
 ## How To Use / 如何使用
 
@@ -30,7 +28,7 @@ Simple end-to-end RLHF for diffusion models (DDPO) on personal hardware.
 
   该命令会在`/samples`目录下生成样本图片。
 
-### 2. Human Feedback / 人工反馈
+### 2. Human Feedback / 人类反馈
 
 - You can use the provided [WebApp](https://arthur-x.github.io/AlmostPerfect) to score generated images. A detailed use guide can be found in this repo: [AlmostPerfect_frontend](https://github.com/arthur-x/AlmostPerfect_frontend). Once finished, you should get a `scores.json` file in your `/samples` directory.
 
@@ -53,8 +51,6 @@ Simple end-to-end RLHF for diffusion models (DDPO) on personal hardware.
 - Go back to Step 1 with LoRA loaded if you want to continue.
 
   加载训练好的LoRA后，可返回第1步继续迭代优化。
-
----
 
 ## Credit / 致谢
 
