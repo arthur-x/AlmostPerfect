@@ -1,6 +1,6 @@
 # AlmostPerfect
 
-Simple end-to-end RLHF (Reinforcement Learning from Human Feedbacks) for diffusion models (DDPO) on personal hardware.
+Simple end-to-end RLHF (Reinforcement Learning from Human Feedback) for diffusion models (DDPO) on personal hardware.
 
 在个人硬件上对扩散模型进行端到端RLHF（基于人类反馈的强化学习）训练（DDPO）。
 
@@ -30,9 +30,9 @@ Simple end-to-end RLHF (Reinforcement Learning from Human Feedbacks) for diffusi
 
 ### 2. Human Feedback / 人类反馈
 
-- You can use the provided [WebApp](https://arthur-x.github.io/AlmostPerfect) to score generated images. A detailed use guide can be found in this repo: [AlmostPerfect_frontend](https://github.com/arthur-x/AlmostPerfect_frontend). Once finished, you should get a `scores.json` file in your `/samples` directory.
+- You can use the provided WebApp to score generated images. A detailed use guide can be found in this repo: [AlmostPerfect_frontend](https://github.com/arthur-x/AlmostPerfect_frontend). Once finished, you should get a `scores.json` file in your `/samples` directory.
 
-  使用配套 [WebApp](https://arthur-x.github.io/AlmostPerfect) 对生成图片进行评分。详细使用指南请参考前端仓库：[AlmostPerfect_frontend](https://github.com/arthur-x/AlmostPerfect_frontend)。完成评分后，`/samples`目录下应该有`scores.json`文件。
+  使用配套WebApp对生成图片进行评分。详细使用指南请参考前端仓库：[AlmostPerfect_frontend](https://github.com/arthur-x/AlmostPerfect_frontend)。完成评分后，`/samples`目录下应该有`scores.json`文件。
 
 ### 3. Train Reward / 训练奖励模型
 
